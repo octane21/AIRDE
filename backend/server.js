@@ -71,6 +71,10 @@ app.use('/api/lookup', lookupRoutes);
 app.use('/api/formula-map', formulaMapRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/', (req, res) => {
+  res.status(200).send('OK');
+});
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
