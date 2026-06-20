@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { aiSuggestions } from '../../data/dashboardData';
 
 /* ─── Avatars ─────────────────────────────────────────────────── */
@@ -35,6 +36,14 @@ function MessageBubble({ msg }) {
             <span className="inline-block w-1.5 h-3.5 bg-orange-400 ml-0.5 animate-pulse rounded-sm align-middle" />
           )}
         </div>
+        {msg.link && (
+          <Link
+            to={msg.link.to}
+            className="text-[11px] text-orange-400 hover:text-orange-300 hover:underline px-1 flex items-center gap-1"
+          >
+            {msg.link.label} →
+          </Link>
+        )}
         <span className="text-[10px] text-slate-600 px-1">{msg.time}</span>
       </div>
     </div>
@@ -78,6 +87,7 @@ export default function AIChat({
   isLoading,
   error,
   onSend,
+  onAskData,
   onClear,
   onClose,
   showClose = false,
@@ -101,6 +111,11 @@ export default function AIChat({
     if (!msg || isLoading) return;
     setInput('');
     onSend(msg);
+  };
+
+  const handleSuggestion = (text) => {
+    if (isLoading) return;
+    (onAskData || onSend)(text);
   };
 
   const handleKeyDown = (e) => {
@@ -177,7 +192,7 @@ export default function AIChat({
         {aiSuggestions.slice(0, 4).map((s, i) => (
           <button
             key={i}
-            onClick={() => handleSend(s)}
+            onClick={() => handleSuggestion(s)}
             disabled={isLoading}
             className="text-[10px] bg-[#111d35] hover:bg-[#162040] disabled:opacity-40 disabled:cursor-not-allowed text-slate-400 hover:text-orange-400 border border-[#1e2d4f] hover:border-orange-500/40 px-2.5 py-1 rounded-full transition-all"
           >

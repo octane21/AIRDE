@@ -1,19 +1,19 @@
+import { buildLiveContext } from './aiContext.js';
+
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 const MODEL = import.meta.env.VITE_GROQ_MODEL || 'llama-3.3-70b-versatile';
 
-const SYSTEM_PROMPT = `Anda adalah AIRDE AI Assistant, asisten cerdas untuk sistem manajemen integritas pipa (Pipeline Integrity Management System) bernama AIRDE V20.
+/**
+ * Membangun system prompt secara DINAMIS untuk setiap request, berdasarkan
+ * pertanyaan terbaru user. `context` dihasilkan oleh buildLiveContext() yang
+ * mengambil data LANGSUNG dari database (via REST API) — lihat aiContext.js.
+ */
+function buildSystemPrompt(context) {
+  return `Anda adalah AIRDE AI Assistant, asisten cerdas untuk sistem manajemen integritas pipa (Pipeline Integrity Management System) bernama AIRDE V20.
 
-Konteks data terkini (per 15 Juni 2026):
-- Total aset: 125 pipeline segments
-- Asset Health Index (AHI) rata-rata: 86 (GOOD)
-- Risk Score rata-rata: 0.36 (LOW)
-- Remaining Life rata-rata: 305.2 tahun
-- Inspection Coverage: 62% (78 selesai, 47 pending)
-- Aset paling kritis: PL-045 (Jetty 2, AHI=38, Risk=2.33 HIGH), PL-078 (Jetty 1, AHI=54, Risk=1.30)
-- Corrosion rate terkini: 0.125 mm/year (tren menurun dari 0.18 Jan 2026)
-- Maintenance Strategy: Preventive 51%, Predictive 27%, Corrective 15%, Replacement 4%
-- KPI Status: AHI On Track (86≥75), Risk Assets On Track (1≤3), Inspection Coverage Need Action (62%<80%)
+Konteks data terkini (diambil langsung dari database, bukan data statis):
+${context}
 
 Panduan respons:
 - Jawab dalam Bahasa Indonesia yang profesional dan teknis
@@ -22,17 +22,29 @@ Panduan respons:
 - Gunakan format yang rapi (bullet points, angka spesifik), tanpa format highlight
 - Jika ditanya tentang aset spesifik, berikan data yang relevan
 - Jangan buat data fiktif di luar konteks yang diberikan`;
+}
 
 export async function sendMessageToGroq(messages, onChunk, onDone, onError) {
   if (!API_KEY) {
     onError(`API key belum dikonfigurasi. Buka file .env.local dan isi VITE_GROQ_API_KEY dengan API key Groq Anda.`);
     return;
-    // console.log(API_KEY)
   }
+
+  // Ambil pesan terbaru dari user untuk menentukan konteks data apa yang relevan
+  const latestUserMessage = [...messages].reverse().find((m) => m.from === 'user')?.text || '';
+  let context;
+  try {
+    context = await buildLiveContext(latestUserMessage);
+  } catch (err) {
+    onError(`Gagal mengambil data dari database: ${err.message}`);
+    return;
+  }
+  const systemPrompt = buildSystemPrompt(context);
+
   const payload = {
     model: MODEL,
     messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: systemPrompt },
       ...messages.map((m) => ({
         role: m.from === 'user' ? 'user' : 'assistant',
         content: m.text,

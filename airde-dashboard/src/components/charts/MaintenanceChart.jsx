@@ -1,10 +1,11 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { maintenanceStrategy } from '../../data/dashboardData';
 
-export default function MaintenanceChart() {
+export default function MaintenanceChart({ data }) {
+  const chartData = data && data.length ? data : maintenanceStrategy;
   return (
     <ResponsiveContainer width="100%" height={140}>
-      <BarChart data={maintenanceStrategy} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
+      <BarChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
         <XAxis dataKey="label" tick={{ fill: '#64748b', fontSize: 9 }} tickLine={false} axisLine={{ stroke: '#1e2d4f' }} />
         <YAxis tick={{ fill: '#64748b', fontSize: 9 }} tickLine={false} axisLine={false} />
         <Tooltip
@@ -12,7 +13,7 @@ export default function MaintenanceChart() {
           formatter={(v, n, props) => [`${v} (${props.payload.pct}%)`, 'Count']}
         />
         <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-          {maintenanceStrategy.map((entry, i) => (
+          {chartData.map((entry, i) => (
             <Cell key={i} fill={entry.color} />
           ))}
         </Bar>

@@ -5,7 +5,7 @@ export default function AIAssistantPage({ chat }) {
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="px-4 py-3 border-b border-[#1e2d4f] flex-shrink-0">
-        <div className="text-orange-500 font-bold text-sm">06 AI ASSISTANT</div>
+        <div className="text-orange-500 font-bold text-sm">AI ASSISTANT</div>
         <div className="text-[11px] text-slate-400">AIRDE AI-Powered Analysis & Recommendations</div>
       </div>
 
@@ -17,6 +17,7 @@ export default function AIAssistantPage({ chat }) {
             isLoading={chat.isLoading}
             error={chat.error}
             onSend={chat.sendMessage}
+            onAskData={chat.askDataQuestion}
             onClear={chat.clearChat}
             showClose={false}
           />
@@ -38,7 +39,7 @@ export default function AIAssistantPage({ chat }) {
                 {aiSuggestions.map((s, i) => (
                   <button
                     key={i}
-                    onClick={() => chat.sendMessage(s)}
+                    onClick={() => chat.askDataQuestion(s)}
                     disabled={chat.isLoading}
                     className="w-full text-left text-[11px] text-slate-400 hover:text-orange-400 bg-[#111d35] hover:bg-[#162040] border border-[#1e2d4f] hover:border-orange-500/30 rounded px-3 py-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >

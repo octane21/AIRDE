@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { sendMessageToGroq } from '../lib/groqClient';
+import { answerDataQuestion } from '../lib/aiQueries';
 
 function now() {
   return new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -61,10 +62,28 @@ export function useChat() {
     );
   };
 
+  // Quick Question buttons: run a real DB query first (deterministic, always-correct numbers
+  // + a link to the relevant page); only fall back to the LLM if the question isn't canonical.
+  const askDataQuestion = async (text) => {
+    const msg = text.trim();
+    if (!msg || isLoading) return;
+    setError(null);
+
+    const answer = await answerDataQuestion(msg);
+    if (answer) {
+      const userMsg = { from: 'user', text: msg, time: now() };
+      setMessages((prev) => [...prev, userMsg, { from: 'ai', text: answer.text, time: now(), link: answer.link }]);
+      return;
+    }
+
+    // Not a canonical data question — fall back to the LLM (adds the user message itself).
+    sendMessage(msg);
+  };
+
   const clearChat = () => {
     setMessages([{ from: 'ai', text: 'Chat dibersihkan. Ada yang bisa saya bantu? 🛡', time: now() }]);
     setError(null);
   };
 
-  return { messages, isLoading, error, sendMessage, clearChat };
+  return { messages, isLoading, error, sendMessage, askDataQuestion, clearChat };
 }

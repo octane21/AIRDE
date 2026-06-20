@@ -3,7 +3,8 @@ import {
 } from 'recharts';
 import { trendData } from '../../data/dashboardData';
 
-export default function TrendChart({ type = 'ahi' }) {
+export default function TrendChart({ type = 'ahi', data }) {
+  const chartData = data && data.length ? data : trendData;
   const config = {
     ahi: {
       key: 'ahi',
@@ -29,7 +30,7 @@ export default function TrendChart({ type = 'ahi' }) {
 
   return (
     <ResponsiveContainer width="100%" height={160}>
-      <ComposedChart data={trendData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+      <ComposedChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#1e2d4f" />
         <XAxis
           dataKey="month"

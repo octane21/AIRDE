@@ -1,6 +1,9 @@
-export default function KPICard({ icon, title, value, label, change, trend, sub, color = 'text-green-400' }) {
+export default function KPICard({ icon, title, value, label, change, trend, sub, color = 'text-green-400', onClick }) {
   return (
-    <div className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-3 md:p-4 flex flex-col gap-1 hover:border-orange-500/30 transition-colors">
+    <div
+      onClick={onClick}
+      className={`bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-3 md:p-4 flex flex-col gap-1 hover:border-orange-500/30 transition-colors ${onClick ? 'cursor-pointer' : ''}`}
+    >
       <div className="flex items-center justify-between">
         <span className="text-lg">{icon}</span>
         <span className="text-[10px] text-slate-500 uppercase tracking-wider">{title}</span>

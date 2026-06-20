@@ -14,12 +14,13 @@ const CustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, pct }) => {
   );
 };
 
-export default function HealthDistributionChart() {
+export default function HealthDistributionChart({ data }) {
+  const chartData = data && data.length ? data : healthDistribution;
   return (
     <ResponsiveContainer width="100%" height={220}>
       <PieChart>
         <Pie
-          data={healthDistribution}
+          data={chartData}
           cx="50%"
           cy="50%"
           labelLine={false}
@@ -29,7 +30,7 @@ export default function HealthDistributionChart() {
           dataKey="count"
           nameKey="label"
         >
-          {healthDistribution.map((entry, index) => (
+          {chartData.map((entry, index) => (
             <Cell key={index} fill={entry.color} stroke="none" />
           ))}
         </Pie>

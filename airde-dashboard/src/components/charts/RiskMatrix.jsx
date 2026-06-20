@@ -16,18 +16,20 @@ const getRiskLabel = (pof, cof) => {
   return 'LOW';
 };
 
-export default function RiskMatrix() {
+const DEFAULT_CELLS = {
+  '5-4': 1,
+  '2-5': 1,
+  '1-4': 1,
+  '1-3': 5,
+  '1-2': 2,
+  '1-1': 55,
+};
+
+export default function RiskMatrix({ cellCounts, onCellClick }) {
   const pofLabels = ['1', '2', '3', '4', '5'];
   const cofLabels = ['1', '2', '3', '4', '5'];
 
-  const assetsByCell = {
-    '5-4': 1,
-    '2-5': 1,
-    '1-4': 1,
-    '1-3': 5,
-    '1-2': 2,
-    '1-1': 55,
-  };
+  const assetsByCell = cellCounts || DEFAULT_CELLS;
 
   return (
     <div className="w-full overflow-x-auto">
@@ -55,11 +57,12 @@ export default function RiskMatrix() {
                     return (
                       <div
                         key={cof}
-                        className="flex-1 aspect-square rounded flex items-center justify-center text-[10px] font-bold text-white/80 cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => onCellClick?.(pof, cofNum)}
+                        className={`flex-1 aspect-square rounded flex items-center justify-center text-[10px] font-bold text-white/80 transition-opacity ${onCellClick ? 'cursor-pointer hover:opacity-90' : ''}`}
                         style={{ backgroundColor: bg, minHeight: 28 }}
                         title={`PoF:${pof} CoF:${cof} = ${getRiskLabel(pof, cofNum)}`}
                       >
-                        {count > 0 ? count : pof * cofNum}
+                        {count > 0 ? count : (cellCounts ? '' : pof * cofNum)}
                       </div>
                     );
                   })}
