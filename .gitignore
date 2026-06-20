@@ -26,6 +26,7 @@ backend/uploads/*
 *.xlsx
 ~$*
 .word
+*.docx
 
 # Editor / OS
 .vscode/*
