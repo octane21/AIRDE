@@ -8,7 +8,7 @@ function now() {
 
 const WELCOME = {
   from: 'ai',
-  text: 'Hai! Saya AIRDE AI Assistant — asisten cerdas untuk Pipeline Integrity Management.\n\nSaya dapat membantu analisis kondisi aset, risk assessment, rekomendasi maintenance, dan tren corrosion. Ada yang bisa saya bantu? 🛡',
+  text: 'Hai! Saya AIRDE AI Assistant — asisten cerdas untuk Pipeline Integrity Management.\n\nSaya dapat membantu analisis kondisi aset, risk assessment, rekomendasi maintenance, dan tren corrosion. Ada yang bisa saya bantu?',
   time: now(),
 };
 
@@ -81,7 +81,7 @@ export function useChat() {
   };
 
   const clearChat = () => {
-    setMessages([{ from: 'ai', text: 'Chat dibersihkan. Ada yang bisa saya bantu? 🛡', time: now() }]);
+    setMessages([{ from: 'ai', text: 'Chat dibersihkan. Ada yang bisa saya bantu?', time: now() }]);
     setError(null);
   };
 

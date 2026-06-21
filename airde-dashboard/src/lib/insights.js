@@ -74,21 +74,21 @@ export function generateNextActions({ highExtremeIds, pendingCount, topStrategie
 
   actions.push(
     highExtremeIds.length > 0
-      ? { icon: '🎯', text: `Focus on ${highExtremeIds.length} Extreme/High Risk Assets (${highExtremeIds.slice(0, 3).join(', ')}${highExtremeIds.length > 3 ? ', dst.' : ''})` }
-      : { icon: '🎯', text: 'Tidak ada aset Extreme/High Risk — pertahankan monitoring rutin' }
+      ? { icon: 'target', text: `Focus on ${highExtremeIds.length} Extreme/High Risk Assets (${highExtremeIds.slice(0, 3).join(', ')}${highExtremeIds.length > 3 ? ', dst.' : ''})` }
+      : { icon: 'target', text: 'Tidak ada aset Extreme/High Risk — pertahankan monitoring rutin' }
   );
 
   actions.push(
     pendingCount > 0
-      ? { icon: '🔍', text: `Lanjutkan program inspeksi untuk ${pendingCount} aset pending` }
-      : { icon: '🔍', text: 'Inspeksi 100% selesai — lanjutkan siklus berikutnya' }
+      ? { icon: 'search', text: `Lanjutkan program inspeksi untuk ${pendingCount} aset pending` }
+      : { icon: 'search', text: 'Inspeksi 100% selesai — lanjutkan siklus berikutnya' }
   );
 
   if (topStrategies?.length) {
-    actions.push({ icon: '🛠', text: `Implementasi strategi ${topStrategies.join(' & ')}` });
+    actions.push({ icon: 'wrench', text: `Implementasi strategi ${topStrategies.join(' & ')}` });
   }
 
-  actions.push({ icon: '📊', text: `Review budget & resource untuk ${quarterLabel()}` });
+  actions.push({ icon: 'barChart', text: `Review budget & resource untuk ${quarterLabel()}` });
 
   return actions;
 }

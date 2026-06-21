@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { RefreshCw } from 'lucide-react';
 import SectionHeader from '../components/ui/SectionHeader';
 import Badge from '../components/ui/Badge';
 import AssetLink from '../components/ui/AssetLink';
@@ -197,9 +198,9 @@ export default function RiskManagement() {
               </select>
               <button
                 onClick={() => setRefreshKey(k => k + 1)}
-                className="px-2 py-1 text-[11px] text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
+                className="flex items-center px-2 py-1 text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
               >
-                ⟳
+                <RefreshCw size={13} />
               </button>
             </div>
           </div>

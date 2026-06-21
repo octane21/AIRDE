@@ -11,11 +11,11 @@ const CONDITION_META = {
 };
 
 const STRATEGY_META = {
-  Preventive: { icon: '🛡', color: '#3b82f6' },
-  Predictive: { icon: '⌕', color: '#8b5cf6' },
-  Corrective: { icon: '🔧', color: '#f59e0b' },
-  Replacement: { icon: '▣', color: '#ef4444' },
-  Monitoring: { icon: '👁', color: '#22c55e' },
+  Preventive: { icon: 'shield', color: '#3b82f6' },
+  Predictive: { icon: 'search', color: '#8b5cf6' },
+  Corrective: { icon: 'wrench', color: '#f59e0b' },
+  Replacement: { icon: 'package', color: '#ef4444' },
+  Monitoring: { icon: 'eye', color: '#22c55e' },
 };
 
 function pofBucket(pof) {

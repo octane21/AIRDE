@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { ShieldCheck, Search, Wrench, Package, Satellite, Target, BarChart3, RefreshCw } from 'lucide-react';
 import SectionHeader from '../components/ui/SectionHeader';
 import Badge from '../components/ui/Badge';
 import AssetLink from '../components/ui/AssetLink';
@@ -13,12 +14,15 @@ const STRATEGY_OPTIONS = ['Preventive', 'Predictive', 'Corrective', 'Replacement
 const STATUS_OPTIONS = ['Planned', 'In Progress', 'Completed', 'Cancelled'];
 
 const STRATEGY_META = {
-  Preventive:  { icon: '🛡', color: '#3b82f6' },
-  Predictive:  { icon: '⌕', color: '#8b5cf6' },
-  Corrective:  { icon: '🔧', color: '#f59e0b' },
-  Replacement: { icon: '▣', color: '#ef4444' },
-  Monitoring:  { icon: '📡', color: '#22c55e' },
+  Preventive:  { icon: 'shield', color: '#3b82f6' },
+  Predictive:  { icon: 'search', color: '#8b5cf6' },
+  Corrective:  { icon: 'wrench', color: '#f59e0b' },
+  Replacement: { icon: 'package', color: '#ef4444' },
+  Monitoring:  { icon: 'satellite', color: '#22c55e' },
 };
+
+const STRATEGY_ICONS = { shield: ShieldCheck, search: Search, wrench: Wrench, package: Package, satellite: Satellite };
+const NEXT_ACTION_ICONS = { target: Target, search: Search, wrench: Wrench, barChart: BarChart3 };
 
 export default function Maintenance() {
   const { isAssetVisible } = useFilters();
@@ -85,39 +89,45 @@ export default function Maintenance() {
         <div className="text-[11px] text-slate-400">Rule-based strategy from Risk Level + AHI — read-only (14_Action_Register). Edit raw data via DFT / UT / Visual Inspection / Criticality.</div>
       </div>
 
-      <div className="flex-1 overflow-auto scrollbar-thin p-3 md:p-4 space-y-4">
+      <div className="flex-1 overflow-auto scrollbar-thin p-4 md:p-5 space-y-5">
 
         {/* Strategy Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-          {(strategyCounts.length > 0 ? strategyCounts : STRATEGY_OPTIONS.map(l => ({ label: l, count: 0, pct: 0, ...STRATEGY_META[l] }))).map((m) => (
-            <div key={m.label} className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-3">
-              <div className="text-2xl mb-1">{m.icon}</div>
-              <div className="text-xl font-bold" style={{ color: m.color }}>{m.count}</div>
-              <div className="text-[11px] text-slate-300">{m.label}</div>
-              <div className="text-[10px] text-slate-500 mt-1">{m.pct}% of total</div>
-              <div className="mt-2">
-                <div className="w-full bg-[#1e2d4f] rounded-full h-1.5">
-                  <div className="h-1.5 rounded-full" style={{ width: `${m.pct}%`, backgroundColor: m.color }} />
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+          {(strategyCounts.length > 0 ? strategyCounts : STRATEGY_OPTIONS.map(l => ({ label: l, count: 0, pct: 0, ...STRATEGY_META[l] }))).map((m) => {
+            const Icon = STRATEGY_ICONS[m.icon] || Package;
+            return (
+              <div key={m.label} className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-4">
+                <Icon size={22} className="mb-2" style={{ color: m.color }} strokeWidth={1.75} />
+                <div className="text-xl font-bold" style={{ color: m.color }}>{m.count}</div>
+                <div className="text-[11px] text-slate-300">{m.label}</div>
+                <div className="text-[10px] text-slate-500 mt-1">{m.pct}% of total</div>
+                <div className="mt-2.5">
+                  <div className="w-full bg-[#1e2d4f] rounded-full h-1.5">
+                    <div className="h-1.5 rounded-full" style={{ width: `${m.pct}%`, backgroundColor: m.color }} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-3">
+          <div className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-4">
             <SectionHeader title="Strategy Distribution" />
             <MaintenanceChart />
           </div>
-          <div className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-3">
+          <div className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-4">
             <SectionHeader title="Recommended Next Actions" />
-            <div className="space-y-2 mt-2">
-              {nextActions.map((a, i) => (
-                <div key={i} className="flex gap-3 p-3 bg-[#111d35] rounded border border-[#1e2d4f] hover:border-orange-500/30 transition-colors">
-                  <span className="text-xl">{a.icon}</span>
-                  <div className="text-xs text-slate-300">{a.text}</div>
-                </div>
-              ))}
+            <div className="space-y-2.5 mt-2.5">
+              {nextActions.map((a, i) => {
+                const Icon = NEXT_ACTION_ICONS[a.icon] || Target;
+                return (
+                  <div key={i} className="flex gap-3 p-3 bg-[#111d35] rounded-md border border-[#1e2d4f] hover:border-orange-500/30 transition-colors">
+                    <Icon size={18} className="text-orange-400 flex-shrink-0" strokeWidth={1.75} />
+                    <div className="text-xs text-slate-300">{a.text}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -142,9 +152,9 @@ export default function Maintenance() {
               </select>
               <button
                 onClick={() => setRefreshKey(k => k + 1)}
-                className="px-2 py-1 text-[11px] text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
+                className="flex items-center px-2 py-1 text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
               >
-                ⟳
+                <RefreshCw size={13} />
               </button>
             </div>
           </div>

@@ -37,6 +37,7 @@ import UserManagement from './pages/UserManagement';
 import LoginPage from './pages/LoginPage';
 import AIChat from './components/ai/AIChat';
 import { useChat } from './hooks/useChat';
+import { Bot } from 'lucide-react';
 import './index.css';
 
 function AdminRoute({ children }) {
@@ -150,13 +151,13 @@ function AppShell() {
         <button
           onClick={() => setAiOpen(true)}
           className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full
-            bg-orange-500 hover:bg-orange-600 text-white text-2xl
+            bg-orange-500 hover:bg-orange-600 text-white
             flex items-center justify-center
             shadow-2xl shadow-orange-500/40
             transition-all hover:scale-110 active:scale-95"
           title="Buka AI Assistant"
         >
-          🤖
+          <Bot size={24} strokeWidth={1.75} />
         </button>
       )}
 

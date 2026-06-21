@@ -38,3 +38,8 @@ backend/uploads/*
 *.njsproj
 *.sln
 *.sw?
+Diagram_UseCase_AIRDE.png
+Diagram_Workflow_AIRDE.png
+Diagram_Workflow_UseCase_AIRDE.md
+usecase_diagram.svg
+Diagram_Workflow_UseCase_AIRDE.html

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { RefreshCw } from 'lucide-react';
 import Modal from '../components/ui/Modal';
 import AssetLink from '../components/ui/AssetLink';
 import { assetsApi } from '../services/api';
@@ -203,9 +204,9 @@ export default function AssetManagement() {
           </select>
           <button
             onClick={fetchAssets}
-            className="ml-auto px-3 py-1.5 text-[11px] text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
+            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-orange-400 hover:text-orange-300 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 rounded transition-colors"
           >
-            ⟳ Refresh
+            <RefreshCw size={13} /> Refresh
           </button>
         </div>
 

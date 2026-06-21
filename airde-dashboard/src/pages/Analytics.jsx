@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { ShieldCheck, AlertTriangle, TriangleAlert, Lightbulb } from 'lucide-react';
 import SectionHeader from '../components/ui/SectionHeader';
 import { statsApi } from '../services/api';
 
-const CATEGORY_ICON = { 'Asset Health': '🛡', Risk: '⚠', Criticality: '▲' };
+const CATEGORY_ICON = { 'Asset Health': ShieldCheck, Risk: AlertTriangle, Criticality: TriangleAlert };
 
 export default function Analytics() {
   const [insights, setInsights] = useState([]);
@@ -25,7 +26,7 @@ export default function Analytics() {
         <div className="text-[11px] text-slate-400">Generated insights & recommended follow-up (17_Analytics)</div>
       </div>
 
-      <div className="flex-1 overflow-auto scrollbar-thin p-3 md:p-4 space-y-4">
+      <div className="flex-1 overflow-auto scrollbar-thin p-4 md:p-5 space-y-4">
         {apiError && (
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded px-3 py-1.5 text-[11px] text-yellow-400">{apiError}</div>
         )}
@@ -33,20 +34,23 @@ export default function Analytics() {
         {loading ? (
           <div className="text-center text-slate-500 text-sm py-8">Memuat insight...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {insights.map((ins, i) => (
-              <div key={i} className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-4">
-                <SectionHeader title={ins.category} />
-                <div className="flex gap-2 mb-3">
-                  <span className="text-xl flex-shrink-0">{CATEGORY_ICON[ins.category] || '💡'}</span>
-                  <span className="text-[12px] text-slate-300">{ins.insight}</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {insights.map((ins, i) => {
+              const Icon = CATEGORY_ICON[ins.category] || Lightbulb;
+              return (
+                <div key={i} className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg p-4">
+                  <SectionHeader title={ins.category} />
+                  <div className="flex gap-2.5 mb-3 mt-1">
+                    <Icon size={18} className="text-orange-400 flex-shrink-0 mt-0.5" strokeWidth={1.75} />
+                    <span className="text-[12px] text-slate-300">{ins.insight}</span>
+                  </div>
+                  <div className="pt-2.5 border-t border-[#1e2d4f]">
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Recommended Follow-up</div>
+                    <div className="text-[11px] text-orange-400">{ins.follow_up}</div>
+                  </div>
                 </div>
-                <div className="pt-2 border-t border-[#1e2d4f]">
-                  <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Recommended Follow-up</div>
-                  <div className="text-[11px] text-orange-400">{ins.follow_up}</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

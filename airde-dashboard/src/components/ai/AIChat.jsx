@@ -1,16 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Bot, User, Trash2, X, AlertTriangle, Send } from 'lucide-react';
 import { aiSuggestions } from '../../data/dashboardData';
 
 /* ─── Avatars ─────────────────────────────────────────────────── */
 const BOT_AVATAR = (
-  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-sm flex-shrink-0 shadow-md shadow-orange-500/20">
-    🤖
+  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-500/20">
+    <Bot size={15} className="text-white" strokeWidth={1.75} />
   </div>
 );
 const USER_AVATAR = (
-  <div className="w-7 h-7 rounded-full bg-[#1e2d4f] border border-[#2d3f6b] flex items-center justify-center text-sm flex-shrink-0">
-    👤
+  <div className="w-7 h-7 rounded-full bg-[#1e2d4f] border border-[#2d3f6b] flex items-center justify-center flex-shrink-0">
+    <User size={14} className="text-slate-300" strokeWidth={1.75} />
   </div>
 );
 
@@ -129,14 +130,14 @@ export default function AIChat({
     <div className="flex flex-col h-full bg-[#0a1628]">
 
       {/* ── Header ── */}
-      <div className="px-4 py-2.5 border-b border-[#1e2d4f] flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-2.5">
+      <div className="px-4 py-3 border-b border-[#1e2d4f] flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shadow-md shadow-orange-500/20">
-            🤖
+            <Bot size={17} className="text-white" strokeWidth={1.75} />
           </div>
           <div>
             <div className="text-xs font-bold text-slate-200">AIRDE AI Assistant</div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 mt-0.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <span className="text-[10px] text-green-400">
                 {isLoading ? 'Sedang menjawab...' : 'Online · Groq API'}
@@ -144,21 +145,21 @@ export default function AIChat({
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={onClear}
-            className="text-[13px] font-bold text-slate-500 hover:text-slate-300 transition-colors px-2 py-1 rounded hover:bg-[#162040]"
+            className="flex items-center gap-1 text-[11px] font-medium text-slate-500 hover:text-slate-300 transition-colors px-2.5 py-1.5 rounded-md hover:bg-[#162040]"
             title="Bersihkan chat"
           >
-            🗑 Clear
+            <Trash2 size={13} /> Clear
           </button>
           {showClose && (
             <button
               onClick={onClose}
-              className="text-slate-500 font-bold hover:text-slate-200 hover:bg-[#162040] w-7 h-7 flex items-center justify-center rounded transition-colors"
+              className="text-slate-500 hover:text-slate-200 hover:bg-[#162040] w-7 h-7 flex items-center justify-center rounded-md transition-colors"
               title="Tutup"
             >
-              ✕
+              <X size={15} />
             </button>
           )}
         </div>
@@ -176,7 +177,7 @@ export default function AIChat({
 
         {error && (
           <div className="flex items-start gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-[11px] text-red-400">
-            <span className="flex-shrink-0">⚠️</span>
+            <AlertTriangle size={14} className="flex-shrink-0 mt-0.5" />
             <div>
               <div className="font-medium mb-0.5">Gagal mendapatkan respons</div>
               <div className="text-red-400/80">{error}</div>
@@ -188,13 +189,13 @@ export default function AIChat({
       </div>
 
       {/* ── Suggestion chips ── */}
-      <div className="px-4 pt-2 flex gap-1.5 flex-wrap flex-shrink-0">
+      <div className="px-4 pt-3 flex gap-2 flex-wrap flex-shrink-0">
         {aiSuggestions.slice(0, 4).map((s, i) => (
           <button
             key={i}
             onClick={() => handleSuggestion(s)}
             disabled={isLoading}
-            className="text-[10px] bg-[#111d35] hover:bg-[#162040] disabled:opacity-40 disabled:cursor-not-allowed text-slate-400 hover:text-orange-400 border border-[#1e2d4f] hover:border-orange-500/40 px-2.5 py-1 rounded-full transition-all"
+            className="text-[10px] bg-[#111d35] hover:bg-[#162040] disabled:opacity-40 disabled:cursor-not-allowed text-slate-400 hover:text-orange-400 border border-[#1e2d4f] hover:border-orange-500/40 px-3 py-1.5 rounded-full transition-all"
           >
             {s}
           </button>
@@ -202,7 +203,7 @@ export default function AIChat({
       </div>
 
       {/* ── Input bar ── */}
-      <div className="px-4 py-3 border-t border-[#1e2d4f] flex-shrink-0 mt-2">
+      <div className="px-4 py-3.5 border-t border-[#1e2d4f] flex-shrink-0 mt-3">
         <div className={`
           flex items-end gap-2 bg-[#111d35] border rounded-2xl px-3 py-2 transition-colors
           ${isLoading ? 'border-[#1e2d4f]' : 'border-[#1e2d4f] focus-within:border-orange-500/50'}
@@ -227,9 +228,7 @@ export default function AIChat({
             {isLoading ? (
               <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 translate-x-0.5">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
+              <Send size={15} className="translate-x-0.5" />
             )}
           </button>
         </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Camera } from 'lucide-react';
 import Modal from '../components/ui/Modal';
 import SectionHeader from '../components/ui/SectionHeader';
 import { photosApi, API_ORIGIN } from '../services/api';
@@ -146,7 +147,7 @@ export default function Photos() {
                       onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
                     />
                   ) : null}
-                  <span className="text-slate-600 text-2xl" style={{ display: p.photo_file ? 'none' : 'flex' }}>📷</span>
+                  <Camera className="text-slate-600" size={26} style={{ display: p.photo_file ? 'none' : 'flex' }} strokeWidth={1.5} />
                 </div>
                 <div className="p-2">
                   <div className="text-orange-400 text-xs font-medium">{p.asset_id}</div>

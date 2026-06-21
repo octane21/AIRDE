@@ -30,10 +30,10 @@ export const top5Critical = [
 ];
 
 export const maintenanceStrategy = [
-  { label: 'Preventive', icon: '🛡', count: 28, pct: 51, color: '#3b82f6' },
-  { label: 'Predictive', icon: '⌕', count: 15, pct: 27, color: '#8b5cf6' },
-  { label: 'Corrective', icon: '🔧', count: 8, pct: 15, color: '#f59e0b' },
-  { label: 'Replacement', icon: '▣', count: 2, pct: 4, color: '#ef4444' },
+  { label: 'Preventive', icon: 'shield', count: 28, pct: 51, color: '#3b82f6' },
+  { label: 'Predictive', icon: 'search', count: 15, pct: 27, color: '#8b5cf6' },
+  { label: 'Corrective', icon: 'wrench', count: 8, pct: 15, color: '#f59e0b' },
+  { label: 'Replacement', icon: 'package', count: 2, pct: 4, color: '#ef4444' },
 ];
 
 export const inspectionStatus = {
@@ -65,10 +65,10 @@ export const keyTakeaways = [
 ];
 
 export const nextActions = [
-  { icon: '🎯', text: 'Focus on 2 Extreme Risk Assets (PL-045, PL-001)' },
-  { icon: '🔍', text: 'Lanjutkan program inspeksi untuk 47 aset pending' },
-  { icon: '🛠', text: 'Implementasi strategi Preventive & Predictive' },
-  { icon: '📊', text: 'Review budget & resource untuk Q3 2026' },
+  { icon: 'target', text: 'Focus on 2 Extreme Risk Assets (PL-045, PL-001)' },
+  { icon: 'search', text: 'Lanjutkan program inspeksi untuk 47 aset pending' },
+  { icon: 'wrench', text: 'Implementasi strategi Preventive & Predictive' },
+  { icon: 'barChart', text: 'Review budget & resource untuk Q3 2026' },
 ];
 
 export const kpiTable = [
@@ -90,6 +90,6 @@ export const aiResponses = {
   'Apa aset paling kritis saat ini?': 'Berdasarkan data terkini, aset paling kritis adalah **PL-045** (Jetty 2) dengan Risk Score 2.33 (HIGH) dan AHI hanya 38 (POOR). Disusul **PL-078** (Jetty 1) dengan Risk Score 1.30 (MEDIUM) dan AHI 54. Kedua aset ini memerlukan perhatian segera.',
   'Aset mana yang perlu recoating?': 'Aset yang memerlukan recoating segera berdasarkan Coating Health <60%:\n• **PL-045** – Coating Health 58.67% (Kritis)\n• **PL-037** – Coating Health 42%\n• **PL-041** – Coating Health 36.67%\n• **PL-042** – Coating Health 36%\nRekomendasi: Jadwalkan recoating untuk PL-041 dan PL-042 dalam waktu dekat.',
   'Berapa remaining life asset PL-001?': '**PL-001** (Jetty 2, Pipeline Block A) memiliki Remaining Life **78.2 tahun** berdasarkan perhitungan corrosion rate saat ini (0.05 mm/year). AHI = 76 (GOOD), Risk Score = 0.78 (MEDIUM). Rekomendasi: UT Monitoring + Visual Inspection dengan prioritas P2.',
-  'Apa prioritas maintenance tahun ini?': 'Prioritas maintenance 2026:\n1. 🔴 Immediate – PL-045 (Risk EXTREME, AHI 38)\n2. 🟠 High – UT Monitoring 18 aset MEDIUM risk\n3. 🟡 Medium – Recoating 8 aset dengan Coating Health <60%\n4. 🟢 Routine – Monitoring 47 aset pending inspeksi\nTotal budget rekomendasi: Review Q3 2026.',
+  'Apa prioritas maintenance tahun ini?': 'Prioritas maintenance 2026:\n1. Immediate – PL-045 (Risk EXTREME, AHI 38)\n2. High – UT Monitoring 18 aset MEDIUM risk\n3. Medium – Recoating 8 aset dengan Coating Health <60%\n4. Routine – Monitoring 47 aset pending inspeksi\nTotal budget rekomendasi: Review Q3 2026.',
   'Tampilkan tren corrosion rate.': 'Tren Corrosion Rate (Jan–Jun 2026):\n• Jan: 0.180 mm/yr\n• Feb: 0.165 mm/yr ↓\n• Mar: 0.150 mm/yr ↓\n• Apr: 0.135 mm/yr ↓\n• May: 0.120 mm/yr ↓ (terendah)\n• Jun: 0.125 mm/yr ↑ (slight increase)\nOverall trend: Menurun positif. Namun peningkatan kecil di Jun 2026 perlu dipantau.',
 };
