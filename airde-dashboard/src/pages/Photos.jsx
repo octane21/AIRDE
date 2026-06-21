@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, ZoomIn } from 'lucide-react';
 import Modal from '../components/ui/Modal';
+import PhotoLightbox from '../components/ui/PhotoLightbox';
 import SectionHeader from '../components/ui/SectionHeader';
 import { photosApi, API_ORIGIN } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -26,6 +27,7 @@ export default function Photos() {
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -138,16 +140,24 @@ export default function Photos() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {filtered.map(p => (
               <div key={p.id} className="bg-[#0d1f3c] border border-[#1e2d4f] rounded-lg overflow-hidden">
-                <div className="w-full h-28 bg-[#070e1a] flex items-center justify-center overflow-hidden">
-                  {p.photo_file ? (
+                <div
+                  className={`group relative w-full h-28 bg-[#070e1a] flex items-center justify-center overflow-hidden ${p.photo_file ? 'cursor-pointer' : ''}`}
+                  onClick={() => p.photo_file && setLightboxPhoto(p)}
+                >
+                  {p.photo_file && (
                     <img
                       src={`${UPLOAD_BASE}/${p.photo_file}`}
                       alt={p.finding}
                       className="w-full h-full object-cover"
-                      onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
+                      onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement.querySelector('.photo-fallback-icon').style.display = 'flex'; }}
                     />
-                  ) : null}
-                  <Camera className="text-slate-600" size={26} style={{ display: p.photo_file ? 'none' : 'flex' }} strokeWidth={1.5} />
+                  )}
+                  {p.photo_file && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 flex items-center justify-center transition-colors">
+                      <ZoomIn size={20} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  )}
+                  <Camera className="photo-fallback-icon text-slate-600" size={26} style={{ display: p.photo_file ? 'none' : 'flex' }} strokeWidth={1.5} />
                 </div>
                 <div className="p-2">
                   <div className="text-orange-400 text-xs font-medium">{p.asset_id}</div>
@@ -219,6 +229,15 @@ export default function Photos() {
           </div>
         </form>
       </Modal>
+
+      {lightboxPhoto && (
+        <PhotoLightbox
+          src={`${UPLOAD_BASE}/${lightboxPhoto.photo_file}`}
+          alt={lightboxPhoto.finding}
+          caption={`${lightboxPhoto.asset_id} · ${lightboxPhoto.kp_location || '-'} · ${lightboxPhoto.finding || ''}`}
+          onClose={() => setLightboxPhoto(null)}
+        />
+      )}
     </div>
   );
 }

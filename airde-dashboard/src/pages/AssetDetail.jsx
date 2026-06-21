@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ZoomIn } from 'lucide-react';
 import Badge from '../components/ui/Badge';
 import SectionHeader from '../components/ui/SectionHeader';
+import PhotoLightbox from '../components/ui/PhotoLightbox';
 import { assetsApi, API_ORIGIN } from '../services/api';
 
 const UPLOAD_BASE = `${API_ORIGIN}/uploads`;
@@ -28,6 +30,7 @@ export default function AssetDetail() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -216,16 +219,34 @@ export default function AssetDetail() {
             <SectionHeader title="Photos" subtitle="10_Photo" />
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
               {photos.map(p => (
-                <div key={p.id} className="bg-[#070e1a] rounded overflow-hidden h-20">
-                  {p.photo_file ? (
-                    <img src={`${UPLOAD_BASE}/${p.photo_file}`} alt={p.finding} className="w-full h-full object-cover" onError={e => { e.currentTarget.style.display = 'none'; }} />
-                  ) : null}
+                <div
+                  key={p.id}
+                  className={`group relative bg-[#070e1a] rounded overflow-hidden h-20 ${p.photo_file ? 'cursor-pointer' : ''}`}
+                  onClick={() => p.photo_file && setLightboxPhoto(p)}
+                >
+                  {p.photo_file && (
+                    <>
+                      <img src={`${UPLOAD_BASE}/${p.photo_file}`} alt={p.finding} className="w-full h-full object-cover" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 flex items-center justify-center transition-colors">
+                        <ZoomIn size={16} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         )}
       </div>
+
+      {lightboxPhoto && (
+        <PhotoLightbox
+          src={`${UPLOAD_BASE}/${lightboxPhoto.photo_file}`}
+          alt={lightboxPhoto.finding}
+          caption={lightboxPhoto.finding}
+          onClose={() => setLightboxPhoto(null)}
+        />
+      )}
     </div>
   );
 }
